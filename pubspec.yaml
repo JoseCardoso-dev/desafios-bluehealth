@@ -1,0 +1,52 @@
+name: desafio_bluehealth
+description: "A new Flutter project."
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.2.4 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  flutter_svg: ^2.0.9
+  animate_do: ^3.1.2
+  flip_card: ^0.7.0
+  fl_chart: ^0.66.1
+  http: ^1.2.0
+  mockito: ^5.4.4
+
+dev_dependencies:
+  flutter_native_splash: ^2.3.10
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter_native_splash:
+  color: "#0035DA"
+  image: assets/images/logo_bluehealth_white.png
+  branding: assets/images/logo_blue.png
+  android: true
+  ios: true
+  fullscreen: true
+
+  android_12:
+    color: "#0035DA"
+    image: assets/images/logo_bluehealth_white.png
+    icon_background_color: "#0035DA"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: Open Sans
+      fonts:
+        - asset: assets/fonts/open_sans.ttf
