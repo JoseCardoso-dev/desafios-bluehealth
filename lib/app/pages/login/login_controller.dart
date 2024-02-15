@@ -11,12 +11,12 @@ import 'package:flutter/material.dart';
 
 class LoginController {
   /// Controladores para o campo de e-mail e senha.
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
+  static final TextEditingController emailController = TextEditingController();
+  static final TextEditingController passwordController =
+      TextEditingController();
+  static final ValueNotifier<bool> isLoading = ValueNotifier(false);
   late final UserModel user;
   final userRepository = UserRepository();
-
-  LoginController(this.emailController, this.passwordController);
 
   /// Método para realizar a ação de login.
   void login(BuildContext context) async {
@@ -27,12 +27,15 @@ class LoginController {
         message: 'Preencha todos os campos',
       );
     } else {
+      isLoading.value = true;
       final response = await userRepository.loginUser(
         emailController.text.trim(),
         passwordController.text.trim(),
       );
 
       if (response['success']) {
+        isLoading.value = false;
+        LoginController.cleanData();
         user = UserModel.fromJson(response['data']['user']);
 
         // ignore: use_build_context_synchronously
@@ -43,6 +46,7 @@ class LoginController {
           ),
         );
       } else {
+        isLoading.value = false;
         // ignore: use_build_context_synchronously
         AlertMessageWidget.show(
           context,
@@ -50,5 +54,10 @@ class LoginController {
         );
       }
     }
+  }
+
+  static void cleanData() {
+    emailController.clear();
+    passwordController.clear();
   }
 }

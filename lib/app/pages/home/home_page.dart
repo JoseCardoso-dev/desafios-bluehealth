@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:desafio_bluehealth/app/model/user_model.dart';
+import 'package:desafio_bluehealth/app/pages/login/login_controller.dart';
 import 'package:desafio_bluehealth/app/pages/login/login_page.dart';
 import 'package:desafio_bluehealth/app/src/utils/responsive_utils.dart';
 import 'package:desafio_bluehealth/app/src/utils/transition_page_utils.dart';
@@ -58,6 +59,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       IconButton(
                         onPressed: () {
+                          LoginController.cleanData();
                           TransitionPageUtils.navigateToPage(
                             context,
                             LoginPage(),

@@ -11,15 +11,10 @@ import 'package:animate_do/animate_do.dart';
 /// realizar a autenticação.
 
 class LoginPage extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
   final ResponsiveUltils responsiveUltils = ResponsiveUltils();
+  final LoginController loginController = LoginController();
 
-  late final LoginController loginController;
-
-  LoginPage({Key? key}) : super(key: key) {
-    loginController = LoginController(emailController, passwordController);
-  }
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +67,6 @@ class LoginPage extends StatelessWidget {
                         margin: const EdgeInsets.only(top: 50),
                         child: Center(
                           child: Text(
-                            key: const Key('login_title'),
                             "Login",
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.background,
@@ -125,7 +119,7 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                             child: TextField(
-                              controller: emailController,
+                              controller: LoginController.emailController,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Email",
@@ -140,7 +134,7 @@ class LoginPage extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
-                              controller: passwordController,
+                              controller: LoginController.passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -162,43 +156,60 @@ class LoginPage extends StatelessWidget {
                   // #=====#=====# Botão de Login #=====#=====#
                   FadeInUp(
                     duration: const Duration(milliseconds: 1900),
-                    child: TextButton(
-                      onPressed: () {
-                        loginController.login(context);
-                      },
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.all(0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                            colors: [
-                              Theme.of(context).colorScheme.primary,
-                              Theme.of(context).colorScheme.secondary,
-                            ],
-                          ),
-                        ),
-                        child: Container(
-                          height:
-                              responsiveUltils.getHeightSpacing(context, 50),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                              fontSize:
-                                  20 * responsiveUltils.getTextScale(context),
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                    child: ValueListenableBuilder<bool>(
+                        valueListenable: LoginController.isLoading,
+                        builder: (context, value, child) {
+                          return TextButton(
+                            onPressed: value
+                                ? null
+                                : () {
+                                    if (FocusScope.of(context).isFirstFocus) {
+                                      FocusScope.of(context).unfocus();
+                                    }
+                                    loginController.login(context);
+                                  },
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.all(0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              backgroundColor: Colors.transparent,
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Theme.of(context).colorScheme.primary,
+                                    Theme.of(context).colorScheme.secondary,
+                                  ],
+                                ),
+                              ),
+                              child: Container(
+                                height: responsiveUltils.getHeightSpacing(
+                                    context, 50),
+                                alignment: Alignment.center,
+                                child: value
+                                    ? const Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Text(
+                                        "Login",
+                                        style: TextStyle(
+                                          fontSize: 20 *
+                                              responsiveUltils
+                                                  .getTextScale(context),
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          );
+                        }),
                   ),
                   SizedBox(
                     height: responsiveUltils.getHeightSpacing(context, 70),
@@ -208,7 +219,6 @@ class LoginPage extends StatelessWidget {
                   FadeInUp(
                     duration: const Duration(milliseconds: 2000),
                     child: Text(
-                      key: const Key('login_button'),
                       "Esqueceu a Senha?",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
