@@ -1,16 +1,7 @@
-# desafio_bluehealth
+# Desafio Blue Health 💻👨‍💻
 
-A new Flutter project.
+- Repositório exclusivo para hospedar os meus desafios, aprendizados e conhecimentos adquiridos no desafio técnico da saúde blue.🐧🐧
 
-## Getting Started
+### Demostrativo do App:
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://github.com/JoseCardoso-dev/desafios-bluehealth/assets/56493465/945ba13e-ce85-420c-80e4-530a4afccd68
