@@ -18,10 +18,14 @@ dependencies:
   flip_card: ^0.7.0
   fl_chart: ^0.66.1
   http: ^1.2.0
-  mockito: ^5.4.4
+  loading_animation_widget: ^1.2.0+4
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.2
 
 dev_dependencies:
   flutter_native_splash: ^2.3.10
+  mockito: ^5.4.4
   flutter_test:
     sdk: flutter
 
@@ -45,9 +49,16 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/homeView/
     - assets/videos/
 
   fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Light.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
+
     - family: Open Sans
       fonts:
         - asset: assets/fonts/open_sans.ttf

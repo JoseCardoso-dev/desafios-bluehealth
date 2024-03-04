@@ -22,7 +22,7 @@ class CardFrontWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.tertiary,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -43,7 +43,7 @@ class CardFrontWidget extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   'assets/images/logo_bluehealth_white.svg',
-                  height: 30.0 * responsiveUltils.getImageScale(context),
+                  height: 20.0 * responsiveUltils.getImageScale(context),
                 ),
                 Container(
                   padding: const EdgeInsets.all(16.0),
@@ -59,7 +59,7 @@ class CardFrontWidget extends StatelessWidget {
                           ),
                         ),
                         child: CircleAvatar(
-                          radius: 50.0,
+                          radius: 35.0,
                           backgroundImage: NetworkImage(
                             imgUrl,
                           ),
@@ -106,7 +106,7 @@ class CardFrontWidget extends StatelessWidget {
                   )
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

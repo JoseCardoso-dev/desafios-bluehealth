@@ -1,8 +1,12 @@
+import 'package:desafio_bluehealth/app/config/hive_config.dart';
 import 'package:desafio_bluehealth/app/constants/app_theme.dart';
-import 'package:desafio_bluehealth/app/pages/login/login_page.dart';
+import 'package:desafio_bluehealth/app/view/login/login_view.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await HiveConfig.start();
+
   runApp(const MyApp());
 }
 
@@ -13,9 +17,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Desafio BlueHealth',
+      title: 'Meu Saúde Blue',
       theme: AppTheme.instance.appTheme(context),
-      home: LoginPage(),
+      home: const LoginView(),
     );
   }
 }

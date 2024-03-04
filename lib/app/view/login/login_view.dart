@@ -1,8 +1,12 @@
-import 'package:desafio_bluehealth/app/pages/login/login_controller.dart';
+import 'package:desafio_bluehealth/app/src/utils/transition_page_utils.dart';
+import 'package:desafio_bluehealth/app/view/home/home_view.dart';
 import 'package:desafio_bluehealth/app/src/utils/responsive_utils.dart';
-import 'package:desafio_bluehealth/app/widgets/element_login_widget.dart';
+import 'package:desafio_bluehealth/app/viewModel/login_viewModel.dart';
+import 'package:desafio_bluehealth/app/widgets/alert_message_widget.dart';
+import 'package:desafio_bluehealth/app/widgets/loginViewWidgets/element_login_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 /// Tela de Login
 ///
@@ -10,11 +14,31 @@ import 'package:animate_do/animate_do.dart';
 /// Ela inclui campos para inserir credenciais (e-mail e senha) e botões para
 /// realizar a autenticação.
 
-class LoginPage extends StatelessWidget {
-  final ResponsiveUltils responsiveUltils = ResponsiveUltils();
-  final LoginController loginController = LoginController();
+class LoginView extends StatefulWidget {
+  const LoginView({Key? key}) : super(key: key);
 
-  LoginPage({Key? key}) : super(key: key);
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  final ResponsiveUltils responsiveUltils = ResponsiveUltils();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final FocusNode passwordFocusNode = FocusNode();
+  final LoginViewModel loginViewModel = LoginViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    loginViewModel.initUserStorage();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    loginViewModel.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +109,10 @@ class LoginPage extends StatelessWidget {
 
             // #=====#=====# Decoração que envolve os campos de e-mail e senha #=====#=====#
             Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 30,
+                vertical: 25,
+              ),
               child: Column(
                 children: [
                   FadeInUp(
@@ -119,7 +146,10 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                             child: TextField(
-                              controller: LoginController.emailController,
+                              controller: emailController,
+                              onSubmitted: (value) {
+                                passwordFocusNode.requestFocus();
+                              },
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Email",
@@ -134,7 +164,11 @@ class LoginPage extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
-                              controller: LoginController.passwordController,
+                              controller: passwordController,
+                              onSubmitted: (value) async {
+                                await login();
+                              },
+                              focusNode: passwordFocusNode,
                               obscureText: true,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -156,63 +190,66 @@ class LoginPage extends StatelessWidget {
                   // #=====#=====# Botão de Login #=====#=====#
                   FadeInUp(
                     duration: const Duration(milliseconds: 1900),
-                    child: ValueListenableBuilder<bool>(
-                        valueListenable: LoginController.isLoading,
-                        builder: (context, value, child) {
-                          return TextButton(
-                            onPressed: value
-                                ? null
-                                : () {
-                                    if (FocusScope.of(context).isFirstFocus) {
-                                      FocusScope.of(context).unfocus();
-                                    }
-                                    loginController.login(context);
-                                  },
-                            style: TextButton.styleFrom(
-                              padding: const EdgeInsets.all(0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              backgroundColor: Colors.transparent,
+                    child: ValueListenableBuilder(
+                      valueListenable: loginViewModel,
+                      builder: (context, value, child) {
+                        return TextButton(
+                          onPressed: loginViewModel.loading
+                              ? null
+                              : () async {
+                                  await login();
+                                },
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Ink(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Theme.of(context).colorScheme.primary,
-                                    Theme.of(context).colorScheme.secondary,
-                                  ],
-                                ),
+                            backgroundColor: Colors.transparent,
+                          ),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Theme.of(context).colorScheme.primary,
+                                  Theme.of(context).colorScheme.secondary,
+                                ],
                               ),
-                              child: Container(
-                                height: responsiveUltils.getHeightSpacing(
-                                    context, 50),
-                                alignment: Alignment.center,
-                                child: value
-                                    ? const Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    : Text(
-                                        "Login",
-                                        style: TextStyle(
-                                          fontSize: 20 *
-                                              responsiveUltils
-                                                  .getTextScale(context),
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                            ),
+                            child: Container(
+                              height: responsiveUltils.getHeightSpacing(
+                                  context, 50),
+                              alignment: Alignment.center,
+                              child: loginViewModel.loading
+                                  ? Center(
+                                      child: LoadingAnimationWidget
+                                          .fourRotatingDots(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .background,
+                                        size: 30 *
+                                            responsiveUltils
+                                                .getImageScale(context),
                                       ),
-                              ),
+                                    )
+                                  : Text(
+                                      "Login",
+                                      style: TextStyle(
+                                        fontSize: 20 *
+                                            responsiveUltils
+                                                .getTextScale(context),
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                             ),
-                          );
-                        }),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   SizedBox(
-                    height: responsiveUltils.getHeightSpacing(context, 70),
+                    height: responsiveUltils.getHeightSpacing(context, 40),
                   ),
 
                   // #=====#=====# Texto "Esqueceu a Senha?" #=====#=====#
@@ -232,5 +269,37 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> login() async {
+    if (FocusScope.of(context).isFirstFocus) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
+    if (emailController.text.trim().isEmpty ||
+        passwordController.text.trim().isEmpty) {
+      AlertMessageWidget.show(
+        context,
+        message: 'Preencha todos os campos',
+      );
+    } else {
+      loginViewModel.changeEmailAndPassword(
+        emailController.text,
+        passwordController.text,
+      );
+      await loginViewModel.login();
+      if (loginViewModel.successLogin) {
+        // ignore: use_build_context_synchronously
+        TransitionPageUtils.navigateToPage(
+          context,
+          const HomeView(),
+        );
+      } else if (loginViewModel.messageError.isNotEmpty) {
+        // ignore: use_build_context_synchronously
+        AlertMessageWidget.show(
+          context,
+          message: loginViewModel.messageError,
+        );
+      }
+    }
   }
 }

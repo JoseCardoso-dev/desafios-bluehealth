@@ -21,7 +21,7 @@ class CardBackWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.tertiary,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -71,14 +71,14 @@ class CardBackWidget extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   'assets/images/qrcode.svg',
-                  height: 80.0 * responsiveUltils.getImageScale(context),
+                  height: 75.0 * responsiveUltils.getImageScale(context),
                 ),
                 SizedBox(
                   height: responsiveUltils.getHeightSpacing(context, 15),
                 ),
                 SvgPicture.asset(
                   'assets/images/logo_bluehealth_white.svg',
-                  height: 20.0 * responsiveUltils.getImageScale(context),
+                  height: 15.0 * responsiveUltils.getImageScale(context),
                 ),
               ],
             ),

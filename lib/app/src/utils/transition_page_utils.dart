@@ -7,7 +7,7 @@ class TransitionPageUtils {
   /// [context]: O contexto da aplicação.
   /// [page]: A widget da página para a qual navegar.
   static void navigateToPage(BuildContext context, Widget page) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => page,

@@ -27,6 +27,7 @@ class HttpService implements ApiClient {
           "user": {
             "img_url":
                 "https://media.licdn.com/dms/image/D4D03AQEL6Ed4-Q5aEw/profile-displayphoto-shrink_200_200/0/1678056655137?e=2147483647&v=beta&t=cC17D0LYjU-OSMAnKymBew9UFznPPVbec6fRIz8TRyk",
+            "first_name": "José",
             "name": "José Roberto Souza Cardoso",
             "cpf": "123.456.789-00",
             "blood_group": "A+",

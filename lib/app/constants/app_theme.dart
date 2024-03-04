@@ -14,35 +14,36 @@ class AppTheme {
 
   ThemeData appTheme(BuildContext context) {
     return ThemeData(
-      fontFamily: 'Open Sans',
+      fontFamily: 'Poppins',
       colorScheme: ColorScheme.fromSeed(
-        primary: const Color(0xFF0035da),
-        secondary: const Color(0xFF8da5ee),
-        tertiary: Colors.grey[700],
+        primary: const Color(0xFF09A5FF),
+        secondary: const Color(0xFF0035da),
+        tertiary: const Color(0xFFA0A0A0),
         background: const Color(0xFFFFFFFF),
+        onBackground: const Color.fromARGB(255, 0, 0, 0),
         seedColor: Colors.deepPurple,
         onSecondary: const Color(0xFF08DBC6),
       ),
       scaffoldBackgroundColor: Colors.white,
       textTheme: TextTheme(
-        bodyMedium: TextStyle(
-          fontSize: 15 * responsiveUltils.getTextScale(context),
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
         titleLarge: TextStyle(
           fontSize: 22 * responsiveUltils.getTextScale(context),
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.background,
           fontWeight: FontWeight.bold,
         ),
         titleSmall: TextStyle(
           fontSize: 18 * responsiveUltils.getTextScale(context),
-          color: Colors.grey[700],
+          color: Theme.of(context).colorScheme.secondary,
+          fontWeight: FontWeight.bold,
+        ),
+        bodyMedium: TextStyle(
+          fontSize: 14 * responsiveUltils.getTextScale(context),
+          color: Theme.of(context).colorScheme.background,
           fontWeight: FontWeight.bold,
         ),
         bodySmall: TextStyle(
           fontSize: 12 * responsiveUltils.getTextScale(context),
-          color: Colors.grey[700],
+          color: Theme.of(context).colorScheme.background,
           fontWeight: FontWeight.bold,
         ),
       ),

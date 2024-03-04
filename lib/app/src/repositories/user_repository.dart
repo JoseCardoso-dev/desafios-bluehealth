@@ -1,9 +1,12 @@
+import 'package:desafio_bluehealth/app/model/user_model.dart';
 import 'package:desafio_bluehealth/app/src/api/http_api_client.dart';
 import 'package:desafio_bluehealth/app/src/api/i_api_client.dart';
+import 'package:hive/hive.dart';
 
 /// Repositório para operações relacionadas ao usuário.
 class UserRepository {
   late final ApiClient _apiClient;
+  late Box box;
 
   UserRepository({ApiClient? apiClient}) {
     /// Cliente de API utilizado para realizar chamadas HTTP.
@@ -40,5 +43,22 @@ class UserRepository {
     } catch (e) {
       return {'success': false, 'error': 'Sem conexão com a internet'};
     }
+  }
+
+  Future<void> initUserStorage() async {
+    box = await Hive.openBox('user');
+  }
+
+  Future<void> saveUserStorage(UserModel user) async {
+    await box.put('user', user.toJson());
+  }
+
+  Future<UserModel> getUserStorage() async {
+    final userJson = await box.get('user');
+    return UserModel.fromJson(userJson);
+  }
+
+  Future<void> logout() async {
+    await box.delete('user');
   }
 }

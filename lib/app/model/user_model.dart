@@ -2,6 +2,7 @@
 
 class UserModel {
   String? _imgUrl;
+  String? _firstName;
   String? _name;
   String? _cpf;
   String? _bloodGroup;
@@ -13,6 +14,7 @@ class UserModel {
 
   UserModel(
       {String? imgUrl,
+      String? firstName,
       String? name,
       String? cpf,
       String? bloodGroup,
@@ -23,6 +25,9 @@ class UserModel {
       String? planValidity}) {
     if (imgUrl != null) {
       _imgUrl = imgUrl;
+    }
+    if (firstName != null) {
+      _firstName = firstName;
     }
     if (name != null) {
       _name = name;
@@ -52,6 +57,8 @@ class UserModel {
 
   String? get imgUrl => _imgUrl;
   set imgUrl(String? imgUrl) => _imgUrl = imgUrl;
+  String? get firstName => _firstName;
+  set firstName(String? firstName) => _firstName = firstName;
   String? get name => _name;
   set name(String? name) => _name = name;
   String? get cpf => _cpf;
@@ -73,6 +80,7 @@ class UserModel {
 
   UserModel.fromJson(Map<String, dynamic> json) {
     _imgUrl = json['img_url'];
+    _firstName = json['first_name'];
     _name = json['name'];
     _cpf = json['cpf'];
     _bloodGroup = json['blood_group'];
@@ -86,6 +94,7 @@ class UserModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['img_url'] = _imgUrl;
+    data['first_name'] = _firstName;
     data['name'] = _name;
     data['cpf'] = _cpf;
     data['blood_group'] = _bloodGroup;
